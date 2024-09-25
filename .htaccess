@@ -1,0 +1,54 @@
+# RewriteEngine On
+
+# # Redirect API requests to src/Api/index.php
+# RewriteRule ^api/(.*)$ src/Api/index.php [L,QSA]
+
+# # Allow access to PHP files directly in the signup directory
+# RewriteRule ^signup/(.*\.php)$ src/page/signup/$1 [L]
+
+# # Redirect other signup requests to src/page/signup/index.php
+# RewriteRule ^signup(/.*)?$ src/page/signup/index.php [L,QSA]
+
+# # Redirect login requests to src/page/login/index.php
+# RewriteRule ^login(/.*)?$ src/page/login/index.php [L,QSA]
+
+# # Redirect test requests to src/Page/Login/index.php
+# RewriteRule ^test$ src/Page/Login/index.php [L]
+
+# # Redirect root to the login page
+# RewriteRule ^$ src/Page/Login/index.php [L]
+# # Custom error document for 404 errors (optional)
+# ErrorDocument 404 /errors/404.php
+
+
+
+RewriteEngine On
+
+# Client API requests
+RewriteRule ^client/api/(.*)$ src/client/api/index.php [L,QSA]
+
+# Admin API requests
+RewriteRule ^admin/api/(.*)$ src/admin/api/index.php [L,QSA] 
+
+# Redirect root URL to src/admin/index.php 
+RewriteRule ^admin/?$ src/admin/index.php [L]
+#RewriteRule ^$ src/admin/index.php [L] 
+
+
+# Allow access to PHP files directly in the signup directory
+RewriteRule ^signup/(.*\.php)$ src/client/signup/$1 [L]
+
+# Redirect other signup requests to src/client/signup/index.php
+RewriteRule ^signup(/.*)?$ src/client/signup/index.php [L,QSA]
+
+# Redirect login requests to src/client/login/index.php
+RewriteRule ^login(/.*)?$ src/client/login/index.php [L,QSA]
+
+# Redirect root to the login page
+RewriteRule ^$ src/client/login/index.php [L]
+
+# Custom error document for 404 errors
+ErrorDocument 404 /attendance-system/errors/404.php
+
+# Disable directory listings
+Options -Indexes
