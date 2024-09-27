@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    <p>client index</p> 
-    <a href="./signup">register</a>
+    <p>dashboard</p> 
+    <a href="./logout.php"> logout</a> 
+    <?php    
+    session_start();
+            var_dump($_SESSION);
+    ?>
 </body>
 </html>
