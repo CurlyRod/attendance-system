@@ -2,25 +2,30 @@
 class MonitoringAPI{
     private PDO $conn; 
     
-    public function __construct(Database $database)
+    public function __construct( Database $database)
     {
         $this->conn = $database->getConnection();
     }   
 
-    
-    public function getValidateAttendance(string $student_number) : array | false {
+    public function GetValidateAttendance(string $rfidtag) : array | false {
         
-        $query = "SELECT student_number, firstname, lastname, section FROM students WHERE student_number = :student_number";  
-        $stmt = $this->conn->prepare($query);  
-        $stmt->bindValue(":student_number", $student_number, PDO::PARAM_STR);  
+        $query = "SELECT * FROM monitoring_information 
+                  WHERE rfidtag = :rfidtag
+                  AND DATE(time_in) = :timenow"; 
+
+        $stmt = $this->conn->prepare($query);   
+        $timeNow = date("Y-m-d");
+        $stmt->bindValue(":rfidtag", $rfidtag, PDO::PARAM_STR);  
+        $stmt->bindValue(":timenow",$timeNow, PDO::PARAM_STR ); 
         $stmt->execute(); 
 
         $data = [];
-        if($stmt->rowCount() > 0){           
-            $data = $stmt->fetch(PDO:: FETCH_ASSOC);  
-            return $data;
-        }else{
-            $data = [ "status" => false, "message" => "Student not exist." ];
+        if( $stmt->rowCount() > 0){           
+            $studentIno = 
+            $data = [ "status" => true, "message" => "Already Time In." ];
+            return $data; 
+        }else {
+            $data = [ "status" => false, "message" => "No Time in yet." ];
             return $data;
         }
     }

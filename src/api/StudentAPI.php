@@ -4,11 +4,11 @@ class StudentAPI{
     
     public function __construct(Database $database)
     {
-        $this->conn = $database->getConnection();
+        $this->conn = $database->GetConnection();
     }
 
-    public function getAllStudent() : array {
-        $query = "SELECT * FROM students" ;
+    public function GetAllStudent() : array {
+        $query = "SELECT rfidtag, student_number, firstname, middlename, lastname, section, email FROM student_information" ;
         $stmt = $this->conn->query($query);  
 
         $data = []; 
@@ -16,7 +16,7 @@ class StudentAPI{
             //if have "bool type need to cast to return in bool. 
             // $rowp["name_column_bool"] = (bool) $rowp["name_column_bool"];
 
-            $data[] = $row;
+          $data[] = $row;
         }
         return $data;
     } 
@@ -56,24 +56,24 @@ class StudentAPI{
     }
 
 
-    public function getValidateByStudentNumber(string $student_number) : array | false {
+    public function GetValidateByRfidTag(string $student_number) : array | false {
         
-        $query = "SELECT student_number, firstname, lastname, section FROM students WHERE student_number = :student_number";  
+        $query = "SELECT rfidtag, student_number, firstname, middlename, lastname, section, email 
+                  FROM student_information
+                  WHERE rfidtag = :rfidtag";   
+
         $stmt = $this->conn->prepare($query);  
-        $stmt->bindValue(":student_number", $student_number, PDO::PARAM_STR);  
+        $stmt->bindValue(":rfidtag", $student_number, PDO::PARAM_STR);  
         $stmt->execute(); 
 
         $data = [];
-        if($stmt->rowCount() > 0){           
+        if( $stmt->rowCount() > 0){           
             $data = $stmt->fetch(PDO:: FETCH_ASSOC);  
             return $data;
         }else{
-            $data = [ "status" => false, "message" => "Student not exist." ];
+            $data = [ "status" => false, "message" => "Student not exist" ];
             return $data;
         }
     }
-
-
-
 }
 ?>
