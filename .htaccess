@@ -25,7 +25,7 @@
 RewriteEngine On
 
 # Client API requests
-RewriteRule ^client/api/(.*)$ src/client/api/index.php [L,QSA]
+RewriteRule ^api/(.*)$ src/api/index.php/$1 [L,QSA]
 
 # Admin API requests
 RewriteRule ^admin/api/(.*)$ src/admin/api/index.php [L,QSA] 
